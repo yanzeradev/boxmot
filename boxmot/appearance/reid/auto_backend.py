@@ -31,6 +31,17 @@ class ReidAutoBackend:
             half (bool): Whether to use half precision for model inference.
         """
         super().__init__()
+        
+        # Verifica se um modelo pré-inicializado foi passado em vez de um caminho de arquivo
+        if isinstance(weights, nn.Module):
+            self.model = weights
+            self.model_name = getattr(weights, 'name', weights.__class__.__name__)
+            self.backend = 'PyTorch'
+            self.device = device
+            self.half = half
+            # Pula o resto da inicialização original que lida com arquivos
+            return
+            
         w = weights[0] if isinstance(weights, list) else weights
         (
             self.pt,
