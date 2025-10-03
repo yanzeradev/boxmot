@@ -14,6 +14,7 @@ from boxmot.utils import WEIGHTS
 from boxmot.utils import logger as LOGGER
 from boxmot.utils.torch_utils import select_device
 
+import torch.nn as nn
 
 class ReidAutoBackend:
     def __init__(
