@@ -39,7 +39,13 @@ class STrack(BaseTrack):
 
     def update_features(self, feat):
         """Normalize and update feature vectors."""
-        feat /= np.linalg.norm(feat)
+        norm = np.linalg.norm(feat)
+
+        if not np.isfinite(norm) or norm < 1e-6:
+            feat = np.zeros_like(feat)
+        else:
+            feat = feat / norm
+
         self.curr_feat = feat
         if self.smooth_feat is None:
             self.smooth_feat = feat
